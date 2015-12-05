@@ -50,7 +50,7 @@ they are much more advanced.
 
 ## License
 
-[MIT](http://opensource.org/licenses/MIT).
+[MIT](http://opensource.org/licenses/MIT)
 
 [Fog]: http://fog.io/
 [Shrine]: https://github.com/janko-m/shrine
