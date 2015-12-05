@@ -16,6 +16,7 @@ Gem::Specification.new do |gem|
 
   gem.add_development_dependency "down", ">= 1.0.3"
 
+  gem.add_development_dependency "rake"
   gem.add_development_dependency "fog-aws"
   gem.add_development_dependency "mime-types"
   gem.add_development_dependency "dotenv"

@@ -50,6 +50,25 @@ If you want to store your files to Amazon S3 or the filesystem, you should use
 the storages that ship with Shrine (instead of [fog-aws] or [fog-local]) as
 they are much more advanced.
 
+## Running tests
+
+Tests use [fog-aws], so you'll have to create an `.env` file with appropriate
+credentials:
+
+```sh
+# .env
+S3_ACCESS_KEY_ID="..."
+S3_SECRET_ACCESS_KEY="..."
+S3_REGION="..."
+S3_BUCKET="..."
+```
+
+Afterwards you can run the tests:
+
+```rb
+bundle exec rake test
+```
+
 ## License
 
 [MIT](http://opensource.org/licenses/MIT)
