@@ -6,7 +6,7 @@ Provides [Fog] storage for [Shrine].
 
 ```ruby
 gem "shrine-fog"
-gem "fog-xyz # Fog gem for the storage you want to use
+gem "fog-xyz" # Fog gem for the storage you want to use
 ```
 
 ## Usage
