@@ -2,7 +2,7 @@ require "test_helper"
 require "shrine/storage/linter"
 
 describe Shrine::Storage::Fog do
-  def storage(**options)
+  def fog(**options)
     options[:provider]              ||= "AWS"
     options[:aws_access_key_id]     ||= ENV.fetch("S3_ACCESS_KEY_ID")
     options[:aws_secret_access_key] ||= ENV.fetch("S3_SECRET_ACCESS_KEY")
@@ -13,34 +13,34 @@ describe Shrine::Storage::Fog do
   end
 
   before do
-    @storage = storage
+    @fog = fog
     shrine = Class.new(Shrine)
-    shrine.storages = {fog: @storage}
+    shrine.storages = {fog: @fog}
     @uploader = shrine.new(:fog)
   end
 
   after do
-    @storage.clear!(:confirm)
+    @fog.clear!(:confirm)
   end
 
   it "passes the linter" do
-    Shrine::Storage::Linter.call(storage)
-    Shrine::Storage::Linter.call(storage(prefix: "prefix"))
+    Shrine::Storage::Linter.call(fog)
+    Shrine::Storage::Linter.call(fog(prefix: "prefix"))
   end
 
   describe "#upload" do
     it "assigns the content type" do
-      @storage.upload(fakeio, "foo", {"mime_type" => "image/jpeg"})
-      tempfile = @storage.download("foo")
+      @fog.upload(fakeio, "foo", {"mime_type" => "image/jpeg"})
+      tempfile = @fog.download("foo")
 
       assert_equal "image/jpeg", tempfile.content_type
     end
 
     it "copies the file if it's from the same storage" do
       uploaded_file = @uploader.upload(fakeio, location: "foo")
-      @storage.upload(uploaded_file, "bar")
+      @fog.upload(uploaded_file, "bar")
 
-      assert @storage.exists?("bar")
+      assert @fog.exists?("bar")
     end
   end
 end
