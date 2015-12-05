@@ -15,6 +15,7 @@ Require the appropriate Fog gem, and assign the parameters for initializing
 the storage:
 
 ```rb
+require "shrine/storage/fog"
 require "fog/google"
 
 Shrine.storages[:store] = Shrine::Storage::Fog.new(
@@ -28,6 +29,7 @@ Shrine.storages[:store] = Shrine::Storage::Fog.new(
 You can also assign a Fog storage object as the `:connection`:
 
 ```rb
+require "shrine/storage/fog"
 require "fog/google"
 
 google = Fog::Storage.new(
