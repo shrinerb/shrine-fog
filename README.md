@@ -44,6 +44,9 @@ Shrine.storages[:store] = Shrine::Storage::Fog.new(
 )
 ```
 
+If both `:cache` and `:store` are a Fog storage, the uploaded file is copied
+over to `:store` instead of reuploaded.
+
 ## S3 or Filesystem
 
 If you want to store your files to Amazon S3 or the filesystem, you should use
@@ -65,8 +68,8 @@ S3_BUCKET="..."
 
 Afterwards you can run the tests:
 
-```rb
-bundle exec rake test
+```sh
+$ bundle exec rake test
 ```
 
 ## License
