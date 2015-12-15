@@ -5,11 +5,12 @@ class Shrine
     class Fog
       attr_reader :connection, :directory, :prefix
 
-      def initialize(directory:, prefix: nil, public: true, connection: nil, **options)
+      def initialize(directory:, prefix: nil, public: true, expires: 3600, connection: nil, **options)
         @connection = connection || ::Fog::Storage.new(options)
         @directory = @connection.directories.new(key: directory)
         @prefix = prefix
         @public = public
+        @expires = expires
       end
 
       def upload(io, id, metadata = {})
@@ -37,11 +38,11 @@ class Shrine
       end
 
       def delete(id)
-        head(id).destroy
+        file(id).destroy
       end
 
       def url(id, **options)
-        head(id).public_url
+        file(id).url(Time.now + @expires, **options)
       end
 
       def clear!(confirm = nil)
@@ -50,6 +51,10 @@ class Shrine
       end
 
       protected
+
+      def file(id)
+        directory.files.new(key: path(id))
+      end
 
       def get(id)
         directory.files.get(path(id))
