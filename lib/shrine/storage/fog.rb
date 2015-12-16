@@ -1,4 +1,5 @@
 require "down"
+require "uri"
 
 class Shrine
   module Storage
@@ -42,7 +43,14 @@ class Shrine
       end
 
       def url(id, **options)
-        file(id).url(Time.now + @expires, **options)
+        signed_url = file(id).url(Time.now + @expires, **options)
+        if @public
+          uri = URI(signed_url)
+          uri.query = nil
+          uri.to_s
+        else
+          signed_url
+        end
       end
 
       def clear!(confirm = nil)

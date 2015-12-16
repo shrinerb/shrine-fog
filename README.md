@@ -44,10 +44,20 @@ Shrine.storages[:store] = Shrine::Storage::Fog.new(
 )
 ```
 
-If both `:cache` and `:store` are a Fog storage, the uploaded file is copied
-over to `:store` instead of reuploaded.
+If both cache and store are a Fog storage, the uploaded file is copied to store
+instead of reuploaded.
 
-## S3 or Filesystem
+### Public
+
+By default the shrine-fog will generate public unsigned URLs, but if you want
+to change that tell Fog not to store files publicly, you can set `:public` to
+false:
+
+```rb
+Shrine::Storage::Fog.new(public: false, **fog_options)
+```
+
+### S3 or Filesystem
 
 If you want to store your files to Amazon S3 or the filesystem, you should use
 the storages that ship with Shrine (instead of [fog-aws] or [fog-local]) as

@@ -1,5 +1,6 @@
 require "test_helper"
 require "shrine/storage/linter"
+require "uri"
 
 describe Shrine::Storage::Fog do
   def fog(**options)
@@ -41,6 +42,14 @@ describe Shrine::Storage::Fog do
       @fog.upload(uploaded_file, "bar")
 
       assert @fog.exists?("bar")
+    end
+  end
+
+  describe "#url" do
+    it "generates signed url when not public" do
+      url = fog(public: false).url("foo")
+
+      refute_empty URI(url).query
     end
   end
 end
