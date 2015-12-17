@@ -47,14 +47,25 @@ Shrine.storages[:store] = Shrine::Storage::Fog.new(
 If both cache and store are a Fog storage, the uploaded file is copied to store
 instead of reuploaded.
 
-### Public
+### URLs
 
 By default the shrine-fog will generate public unsigned URLs, but if you want
 to change that tell Fog not to store files publicly, you can set `:public` to
 false:
 
 ```rb
-Shrine::Storage::Fog.new(public: false, **fog_options)
+fog = Shrine::Storage::Fog.new(**fog_options)
+fog.url("image.jpg") #=> "https://my-bucket.s3-eu-west-1.amazonaws.com/image.jpg"
+
+fog = Shrine::Storage::Fog.new(public: false, **fog_options)
+fog.url("image.jpg") #=> "https://my-bucket.s3-eu-west-1.amazonaws.com/foo?X-Amz-Expires=3600&X-Amz-Date=20151217T102105Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIJF55TMZZY45UT6Q/20151217/eu-west-1/s3/aws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=6908d8cd85ce4469f141a36955611f26d29ae7919eb8a6cba28f9194a92d96c3"
+```
+
+The signed URLs by default expire in 1 hour, you set `:expires` to number of
+seconds you want the URL to expire:
+
+```rb
+Shrine::Storage::Fog.new(expires: 24*60*60, **fog_options) # expires in 1 day
 ```
 
 ### S3 or Filesystem
