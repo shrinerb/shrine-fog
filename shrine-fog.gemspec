@@ -1,6 +1,6 @@
 Gem::Specification.new do |gem|
   gem.name         = "shrine-fog"
-  gem.version      = "0.1.1"
+  gem.version      = "0.2.0"
 
   gem.required_ruby_version = ">= 2.1"
 
@@ -14,12 +14,12 @@ Gem::Specification.new do |gem|
   gem.files        = Dir["README.md", "LICENSE.txt", "lib/**/*.rb", "shrine-fog.gemspec"]
   gem.require_path = "lib"
 
-  gem.add_development_dependency "down", ">= 1.0.3"
+  gem.add_dependency "shrine", "~> 1.1"
+  gem.add_dependency "down", ">= 1.0.5"
 
   gem.add_development_dependency "rake"
   gem.add_development_dependency "fog-aws"
   gem.add_development_dependency "mime-types"
   gem.add_development_dependency "dotenv"
-  gem.add_development_dependency "shrine"
   gem.add_development_dependency "minitest", "~> 5.8"
 end

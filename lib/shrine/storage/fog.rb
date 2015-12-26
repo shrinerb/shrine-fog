@@ -1,3 +1,4 @@
+require "shrine"
 require "down"
 require "uri"
 
@@ -24,6 +25,10 @@ class Shrine
 
       def download(id)
         Down.download(url(id))
+      end
+
+      def stream(id)
+        get(id) { |chunk| yield chunk }
       end
 
       def open(id)
@@ -64,8 +69,8 @@ class Shrine
         directory.files.new(key: path(id))
       end
 
-      def get(id)
-        directory.files.get(path(id))
+      def get(id, &block)
+        directory.files.get(path(id), &block)
       end
 
       def head(id)
@@ -91,7 +96,6 @@ class Shrine
         options[:content_type] = metadata["mime_type"]
 
         directory.files.create(options)
-        io.rewind
       end
 
       def copy(io, id, metadata = {})
