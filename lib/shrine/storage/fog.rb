@@ -28,7 +28,9 @@ class Shrine
       end
 
       def stream(id)
-        get(id) { |chunk| yield chunk }
+        get(id) do |chunk, _, content_length|
+          yield chunk, content_length
+        end
       end
 
       def open(id)
