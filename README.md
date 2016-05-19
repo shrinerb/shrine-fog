@@ -1,6 +1,9 @@
-# Shrine::Fog
+# Shrine::Storage::Fog
 
 Provides [Fog] storage for [Shrine].
+
+Fog is an abstraction over a variety of cloud storages (e.g. Google Cloud and
+Dropbox).
 
 ## Installation
 
@@ -93,6 +96,10 @@ Afterwards you can run the tests:
 $ bundle exec rake test
 ```
 
+## Inspiration
+
+This gem was inspired by [refile-fog].
+
 ## License
 
 [MIT](http://opensource.org/licenses/MIT)
@@ -101,3 +108,4 @@ $ bundle exec rake test
 [Shrine]: https://github.com/janko-m/shrine
 [fog-aws]: https://github.com/fog/fog-aws
 [fog-local]: https://github.com/fog/fog-local
+[refile-fog]: https://github.com/refile/refile-fog

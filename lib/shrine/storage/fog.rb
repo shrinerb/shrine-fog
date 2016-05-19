@@ -15,11 +15,11 @@ class Shrine
         @expires = expires
       end
 
-      def upload(io, id, metadata = {})
+      def upload(io, id, **upload_options)
         if copyable?(io)
-          copy(io, id, metadata)
+          copy(io, id, **upload_options)
         else
-          put(io, id, metadata)
+          put(io, id, **upload_options)
         end
       end
 
@@ -60,8 +60,7 @@ class Shrine
         end
       end
 
-      def clear!(confirm = nil)
-        raise Shrine::Confirm unless confirm == :confirm
+      def clear!
         list.each(&:destroy)
       end
 
@@ -93,14 +92,15 @@ class Shrine
         [*prefix, id].join("/")
       end
 
-      def put(io, id, metadata = {})
+      def put(io, id, shrine_metadata: {}, **upload_options)
         options = {key: path(id), body: io, public: @public}
-        options[:content_type] = metadata["mime_type"]
+        options[:content_type] = shrine_metadata["mime_type"]
+        options.update(upload_options)
 
         directory.files.create(options)
       end
 
-      def copy(io, id, metadata = {})
+      def copy(io, id, **upload_options)
         io.storage.head(io.id).copy(directory.key, path(id))
       end
 

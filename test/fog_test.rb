@@ -21,7 +21,7 @@ describe Shrine::Storage::Fog do
   end
 
   after do
-    @fog.clear!(:confirm)
+    @fog.clear!
   end
 
   it "passes the linter" do
@@ -31,14 +31,14 @@ describe Shrine::Storage::Fog do
 
   describe "#upload" do
     it "assigns the content type" do
-      @fog.upload(fakeio, "foo", {"mime_type" => "image/jpeg"})
+      @fog.upload(StringIO.new, "foo", shrine_metadata: {"mime_type" => "image/jpeg"})
       tempfile = @fog.download("foo")
 
       assert_equal "image/jpeg", tempfile.content_type
     end
 
     it "copies the file if it's from the same storage" do
-      uploaded_file = @uploader.upload(fakeio, location: "foo")
+      uploaded_file = @uploader.upload(StringIO.new, location: "foo")
       @fog.upload(uploaded_file, "bar")
 
       assert @fog.exists?("bar")
