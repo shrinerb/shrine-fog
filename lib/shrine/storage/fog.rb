@@ -27,14 +27,8 @@ class Shrine
         Down.download(url(id))
       end
 
-      def stream(id)
-        get(id) do |chunk, _, content_length|
-          yield chunk, content_length
-        end
-      end
-
       def open(id)
-        download(id)
+        Down.open(url(id))
       end
 
       def read(id)
@@ -62,6 +56,15 @@ class Shrine
 
       def clear!
         list.each(&:destroy)
+      end
+
+      def method_missing(name, *args)
+        if name == :stream
+          warn "Shrine::Storage::Fog#stream is deprecated, you should use Fog#open with #each_chunk instead."
+          get(*args) do |chunk, _, content_length|
+            yield chunk, content_length
+          end
+        end
       end
 
       protected
