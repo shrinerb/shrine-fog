@@ -11,3 +11,18 @@ require "stringio"
 
 require "dotenv"
 Dotenv.load!
+
+class FakeIO
+  def initialize(content)
+    @io = StringIO.new(content)
+  end
+
+  extend Forwardable
+  delegate Shrine::IO_METHODS.keys => :@io
+end
+
+class Minitest::Test
+  def fakeio(content = "file")
+    FakeIO.new(content)
+  end
+end

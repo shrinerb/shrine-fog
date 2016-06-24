@@ -26,19 +26,22 @@ describe Shrine::Storage::Fog do
 
   it "passes the linter" do
     Shrine::Storage::Linter.call(fog)
+  end
+
+  it "passes the linter with prefix" do
     Shrine::Storage::Linter.call(fog(prefix: "prefix"))
   end
 
   describe "#upload" do
     it "assigns the content type" do
-      @fog.upload(StringIO.new, "foo", shrine_metadata: {"mime_type" => "image/jpeg"})
+      @fog.upload(fakeio, "foo", shrine_metadata: {"mime_type" => "image/jpeg"})
       tempfile = @fog.download("foo")
 
       assert_equal "image/jpeg", tempfile.content_type
     end
 
     it "copies the file if it's from the same storage" do
-      uploaded_file = @uploader.upload(StringIO.new, location: "foo")
+      uploaded_file = @uploader.upload(fakeio, location: "foo")
       @fog.upload(uploaded_file, "bar")
 
       assert @fog.exists?("bar")
