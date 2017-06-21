@@ -1,6 +1,7 @@
 require "test_helper"
 require "shrine/storage/linter"
 require "uri"
+require "down"
 
 describe Shrine::Storage::Fog do
   def fog(**options)
@@ -35,7 +36,7 @@ describe Shrine::Storage::Fog do
   describe "#upload" do
     it "assigns the content type" do
       @fog.upload(fakeio, "foo", shrine_metadata: {"mime_type" => "image/jpeg"})
-      tempfile = @fog.download("foo")
+      tempfile = Down.download(@fog.url("foo"))
 
       assert_equal "image/jpeg", tempfile.content_type
     end

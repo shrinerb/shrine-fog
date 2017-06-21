@@ -23,16 +23,8 @@ class Shrine
         end
       end
 
-      def download(id)
-        Down.download(url(id))
-      end
-
       def open(id)
         Down.open(url(id))
-      end
-
-      def read(id)
-        get(id).body
       end
 
       def exists?(id)
