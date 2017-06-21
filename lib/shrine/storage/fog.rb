@@ -50,15 +50,6 @@ class Shrine
         list.each(&:destroy)
       end
 
-      def method_missing(name, *args)
-        if name == :stream
-          warn "Shrine::Storage::Fog#stream is deprecated, you should use Fog#open with #each_chunk instead."
-          get(*args) do |chunk, _, content_length|
-            yield chunk, content_length
-          end
-        end
-      end
-
       protected
 
       def file(id)
