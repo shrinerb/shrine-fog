@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
 
   gem.summary      = "Provides Fog storage for Shrine."
   gem.description  = "Provides Fog storage for Shrine."
-  gem.homepage     = "https://github.com/janko-m/shrine-fog"
+  gem.homepage     = "https://github.com/shrinerb/shrine-fog"
   gem.authors      = ["Janko Marohnić"]
   gem.email        = ["janko.marohnic@gmail.com"]
   gem.license      = "MIT"

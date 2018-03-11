@@ -105,7 +105,7 @@ This gem was inspired by [refile-fog].
 [MIT](http://opensource.org/licenses/MIT)
 
 [Fog]: http://fog.io/
-[Shrine]: https://github.com/janko-m/shrine
+[Shrine]: https://github.com/shrinerb/shrine
 [fog-aws]: https://github.com/fog/fog-aws
 [fog-local]: https://github.com/fog/fog-local
 [refile-fog]: https://github.com/refile/refile-fog
