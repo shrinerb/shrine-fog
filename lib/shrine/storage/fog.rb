@@ -36,7 +36,11 @@ class Shrine
       end
 
       def url(id, **options)
-        signed_url = file(id).url(Time.now + @expires, **options)
+        f = file(id)
+        signed_url = f.method(:url).arity == 1 ?
+          f.url(Time.now + @expires) :
+          f.url(Time.now + @expires, **options)
+
         if @public
           uri = URI(signed_url)
           uri.query = nil
