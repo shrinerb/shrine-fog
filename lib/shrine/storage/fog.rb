@@ -1,5 +1,5 @@
 require "shrine"
-require "down"
+require "down/http"
 require "uri"
 
 class Shrine
@@ -23,8 +23,8 @@ class Shrine
         end
       end
 
-      def open(id)
-        Down.open(url(id))
+      def open(id, **options)
+        Down::Http.open(url(id), **options)
       end
 
       def exists?(id)

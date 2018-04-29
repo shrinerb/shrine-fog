@@ -1,7 +1,7 @@
 require "test_helper"
 require "shrine/storage/linter"
 require "uri"
-require "down"
+require "down/http"
 
 describe Shrine::Storage::Fog do
   def fog(**options)
@@ -36,7 +36,7 @@ describe Shrine::Storage::Fog do
   describe "#upload" do
     it "assigns the content type" do
       @fog.upload(fakeio, "foo", shrine_metadata: {"mime_type" => "image/jpeg"})
-      tempfile = Down.download(@fog.url("foo"))
+      tempfile = Down::Http.download(@fog.url("foo"))
 
       assert_equal "image/jpeg", tempfile.content_type
     end
@@ -46,6 +46,14 @@ describe Shrine::Storage::Fog do
       @fog.upload(uploaded_file, "bar")
 
       assert @fog.exists?("bar")
+    end
+  end
+
+  describe "#open" do
+    it "accepts additional parameters" do
+      @fog.upload(fakeio, "foo")
+      io = @fog.open("foo", rewindable: false)
+      assert_raises(IOError) { io.rewind }
     end
   end
 
