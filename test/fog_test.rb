@@ -63,5 +63,11 @@ describe Shrine::Storage::Fog do
 
       refute_empty URI(url).query
     end
+
+    it "accepts host" do
+      url = @fog.url("foo", host: "https://123abc.cloudfront.net")
+
+      assert_match "https://123abc.cloudfront.net/foo", url
+    end
   end
 end
