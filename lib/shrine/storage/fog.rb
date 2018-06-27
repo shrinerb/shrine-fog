@@ -7,12 +7,10 @@ class Shrine
     class Fog
       attr_reader :connection, :directory, :prefix
 
-      def initialize(directory:, prefix: nil, public: true, expires: 3600, connection: nil, upload_options: {}, **options)
+      def initialize(directory:, prefix: nil, connection: nil, upload_options: {}, **options)
         @connection = connection || ::Fog::Storage.new(options)
         @directory = @connection.directories.new(key: directory)
         @prefix = prefix
-        @public = public
-        @expires = expires
         @upload_options = upload_options
       end
 
@@ -36,11 +34,11 @@ class Shrine
         file(id).destroy
       end
 
-      def url(id, *args)
-        signed_url = file(id).url(Time.now + @expires, *args)
+      def url(id, public: false, expires: 3600, **options)
+        signed_url = file(id).url(Time.now.utc + expires, *[**options])
 
-        if @public
-          uri = URI(signed_url)
+        if public
+          uri = URI.parse(signed_url)
           uri.query = nil
           uri.to_s
         else
@@ -81,7 +79,7 @@ class Shrine
       end
 
       def put(io, id, shrine_metadata: {}, **upload_options)
-        options = { content_type: shrine_metadata["mime_type"], public: @public }
+        options = { content_type: shrine_metadata["mime_type"] }
         options.update(@upload_options)
         options.update(upload_options)
 

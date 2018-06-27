@@ -73,10 +73,21 @@ describe Shrine::Storage::Fog do
   end
 
   describe "#url" do
-    it "generates signed url when not public" do
-      url = fog(public: false).url("foo")
+    it "generates signed URLs by default" do
+      assert_includes @fog.url("foo"), "X-Amz-Expires=3600"
+    end
 
-      refute_empty URI(url).query
+    it "can change URL expiration" do
+      assert_includes @fog.url("foo", expires: 90), "X-Amz-Expires=90"
+    end
+
+    it "can generate public URLs" do
+      url = @fog.url("foo", public: true)
+      assert_nil URI.parse(url).query
+    end
+
+    it "accepts additional URL options" do
+      assert_includes @fog.url("foo", headers: { foo: "bar" }), "X-Amz-SignedHeaders=foo"
     end
   end
 end
