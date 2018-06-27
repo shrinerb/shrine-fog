@@ -71,12 +71,6 @@ seconds you want the URL to expire:
 Shrine::Storage::Fog.new(expires: 24*60*60, **fog_options) # expires in 1 day
 ```
 
-If you want to use a CDN, you can pass the `:host` URL option:
-
-```rb
-uploaded_file.url(host: "https://abc123.cloudfront.net")
-```
-
 ### S3 or Filesystem
 
 If you want to store your files to Amazon S3 or the filesystem, you should use

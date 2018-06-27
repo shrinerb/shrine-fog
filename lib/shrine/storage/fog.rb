@@ -35,23 +35,15 @@ class Shrine
         file(id).destroy
       end
 
-      def url(id, *args, host: nil)
+      def url(id, *args)
         signed_url = file(id).url(Time.now + @expires, *args)
 
         if @public
-          uri = URI.parse(signed_url)
+          uri = URI(signed_url)
           uri.query = nil
-          url = uri.to_s
-        else
-          url = signed_url
-        end
-
-        if host
-          uri = URI.parse(url)
-          uri = URI.join(host, uri.request_uri)
           uri.to_s
         else
-          url
+          signed_url
         end
       end
 
