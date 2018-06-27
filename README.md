@@ -71,6 +71,20 @@ seconds you want the URL to expire:
 Shrine::Storage::Fog.new(expires: 24*60*60, **fog_options) # expires in 1 day
 ```
 
+### Upload options
+
+Dynamic upload options can be passed via the `upload_options` plugin:
+
+```rb
+Shrine.plugin :upload_options, store: { acl: "publicRead" }
+```
+
+You can also specify default upload options on storage initialization:
+
+```rb
+Shrine::Storage::Fog.new(upload_options: { acl: "publicRead" }, **options)
+```
+
 ### S3 or Filesystem
 
 If you want to store your files to Amazon S3 or the filesystem, you should use

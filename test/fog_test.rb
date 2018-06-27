@@ -47,6 +47,21 @@ describe Shrine::Storage::Fog do
 
       assert @fog.exists?("bar")
     end
+
+    it "accepts upload options" do
+      @fog.upload(fakeio, "foo", content_type: "image/jpeg")
+      tempfile = Down::Http.download(@fog.url("foo"))
+
+      assert_equal "image/jpeg", tempfile.content_type
+    end
+
+    it "applies default upload options" do
+      @fog = fog(upload_options: { content_type: "image/jpeg" })
+      @fog.upload(fakeio, "foo")
+      tempfile = Down::Http.download(@fog.url("foo"))
+
+      assert_equal "image/jpeg", tempfile.content_type
+    end
   end
 
   describe "#open" do
