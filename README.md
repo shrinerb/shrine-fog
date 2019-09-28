@@ -8,7 +8,7 @@ Dropbox).
 ## Installation
 
 ```ruby
-gem "shrine-fog"
+gem "shrine-fog", "~> 2.0"
 gem "fog-xyz" # Fog gem for the storage you want to use
 ```
 
