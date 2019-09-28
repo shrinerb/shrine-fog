@@ -24,6 +24,8 @@ class Shrine
 
       def open(id, **options)
         Down::Http.open(url(id), **options)
+      rescue Down::NotFound
+        raise Shrine::FileNotFound, "file #{id.inspect} not found on storage"
       end
 
       def exists?(id)
